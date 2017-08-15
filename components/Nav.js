@@ -3,24 +3,16 @@ import Link from 'next/link'
 const Nav = ({ pathname }) => (
   <div className='nav-container'>
     <nav>
-      <Link href='/'>
-        <a className={(pathname === '/' || pathname === '/reviews') && 'is-active'}>Reviews</a>
+      <Link prefetch href='/'>
+        <a className={(pathname === '/') && 'is-active'}>home</a>
       </Link>
 
-      <Link href='/artists'>
-        <a className={pathname === '/artists' && 'is-active'}>Artists</a>
-      </Link>
-
-      <Link href='/records'>
-        <a className={pathname === '/records' && 'is-active'}>Records</a>
+      <Link prefetch href='/writing'>
+        <a className={(pathname === '/writing') && 'is-active'}>writing</a>
       </Link>
     </nav>
 
     <style jsx>{`
-      .nav-container {
-        background-color: rgb(40, 45, 76);
-      }
-
       nav {
         width: 900px;
         margin: 0 auto;
@@ -33,16 +25,15 @@ const Nav = ({ pathname }) => (
         margin-left: 25px;
         letter-spacing: 1px;
         text-decoration: none;
-        color: rgba(255, 255, 255, 0.7);
         text-decoration: none;
       }
 
       a:hover {
-        color: white;
+        color: red;
       }
 
       .is-active {
-        color: white;
+        color: red;
       }
     `}</style>
   </div>

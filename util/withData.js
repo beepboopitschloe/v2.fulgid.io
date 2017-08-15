@@ -1,31 +1,33 @@
-import React, { Component } from 'react'
+import React from 'react'
 import PropTypes from 'prop-types'
 import { ApolloProvider, getDataFromTree } from 'react-apollo'
-import initClient from './initClient'
+import initApollo from './initApollo'
 
 export default ComposedComponent => {
-  return class WithData extends Component {
+  return class WithData extends React.Component {
     static displayName = `WithData(${ComposedComponent.displayName})`
     static propTypes = {
       serverState: PropTypes.object.isRequired
     }
 
     static async getInitialProps (ctx) {
+      const headers = ctx.req ? ctx.req.headers : {}
       let serverState = {}
 
-      // evaluate getInitialProps()
+      // Evaluate the composed component's getInitialProps()
       let composedInitialProps = {}
       if (ComposedComponent.getInitialProps) {
         composedInitialProps = await ComposedComponent.getInitialProps(ctx)
       }
 
-      // Running all queries in the tree extracting the data
+      // Run all graphql queries in the component tree
+      // and extract the resulting data
       if (!process.browser) {
-        const apollo = initClient()
-        // url prop if any of our queries needs it
-        const url = { query: ctx.query, pathname: ctx.pathname }
+        const apollo = initApollo(headers)
+        // Provide the `url` prop data in case a graphql query uses it
+        const url = {query: ctx.query, pathname: ctx.pathname}
 
-        // Run the queries
+        // Run all graphql queries
         const app = (
           <ApolloProvider client={apollo}>
             <ComposedComponent url={url} {...composedInitialProps} />
@@ -33,10 +35,11 @@ export default ComposedComponent => {
         )
         await getDataFromTree(app)
 
+        // Extract query data from the Apollo's store
         const state = apollo.getInitialState()
 
         serverState = {
-          apollo: {
+          apollo: { // Make sure to only include Apollo's data state
             data: state.data
           }
         }
@@ -44,13 +47,14 @@ export default ComposedComponent => {
 
       return {
         serverState,
+        headers,
         ...composedInitialProps
       }
     }
 
     constructor (props) {
       super(props)
-      this.apollo = initClient(this.props.serverState)
+      this.apollo = initApollo(this.props.headers, this.props.serverState)
     }
 
     render () {

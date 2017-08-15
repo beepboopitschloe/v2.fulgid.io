@@ -1,15 +1,14 @@
 {
-  "name": "vinylbase",
-  "url": "https://github.com/GraphCMS/exmple_01_nextjs_apollo.git",
+  "name": "v2.fulgid.io",
   "version": "0.0.2",
-  "description": "Example app using Next, Apollo and GraphCMS",
+  "description": "GraphQL-connected blog by Noah Muth",
   "scripts": {
     "dev": "node server.js",
     "next": "next",
     "build": "next build",
     "start": "NODE_ENV=production node server.js"
   },
-  "author": "GraphCMS",
+  "author": "Noah Muth",
   "license": "ISC",
   "standard": {
     "parser": "babel-eslint",
@@ -30,7 +29,8 @@
     "react": "^15.5.4",
     "react-apollo": "^1.2.0",
     "react-dom": "^15.5.4",
-    "react-markdown": "^2.5.0",
-    "react-star-rating-component": "1.2.4"
+    "react-star-rating-component": "1.2.4",
+    "recompose": "^0.24.0",
+    "showdown": "^1.7.2"
   }
 }

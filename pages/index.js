@@ -1,43 +1,25 @@
 import { gql, graphql } from 'react-apollo'
+import Link from 'next/link'
 import App from '../components/App'
 import Header from '../components/Header'
-import Loading from '../components/Loading'
+import { Loader } from '../components/Loader'
+import { Main } from '../components/Main'
 import Nav from '../components/Nav'
-import Grid from '../components/Grid'
-import withData from '../lib/withData'
+import withData from '../util/withData'
 
-const AllReviews = ({ url: { pathname }, data: { loading, allReviews } }) => {
-  return (
-    <App>
-      <Nav pathname={pathname} />
-      {
-        loading ? <Loading /> : (
-          <div>
-            <Header
-              title='Vinylbase'
-              subLine='The best music reviews on the interwebs'
-              pageImage='/static/records.svg'
-              isIcon
-            />
-            <section>
-              <Grid entries={allReviews} type='reviews' />
-            </section>
-          </div>
-        )
-       }
-    </App>
-  )
-}
-
-const allReviews = gql`
-  query allReviews {
-    allReviews(orderBy: createdAt_DESC) {
-      id
-      slug
-      rating
-      createdAt
-      title
-    }
-  }`
-
-export default withData(graphql(allReviews)(AllReviews))
+export default ({ url: { pathname } }) => (
+  <App>
+    <Nav pathname={pathname} />
+    <div>
+      <Header
+        title='fulgid.io'
+        subLine='Noah Muth'
+        pageImage='/static/records.svg'
+        isIcon
+      />
+      <Main>
+        wow look at MEEE I have a website!!!
+      </Main>
+    </div>
+  </App>
+)
